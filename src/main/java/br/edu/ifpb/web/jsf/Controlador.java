@@ -10,6 +10,7 @@ import br.edu.ifpb.infra.persistence.memory.PessoasEmMemoria;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -26,14 +27,14 @@ public class Controlador implements Serializable {
     private Pessoa pessoa = new Pessoa("");
     private Dependente dependente = new Dependente();
 
-    private AlteraNomeDasPessoas service = new AlteraNomeDasPessoas();
+    @Inject
+    private PessoasEmMemoria servicoMemoria;
 
     private Pessoas pessoas = new PessoasEmMemoria();
 
     public String redirecionar() {
         // executando a lógica de negócio
-        service.alteraNome(pessoa);
-        pessoa.alterarNome();
+    	//servicoMemoria.nova(pessoa);
         // redirecionando...
         return null; // fica na página original
 //        return "home"; // encmainhar a requisição à página 
@@ -42,38 +43,32 @@ public class Controlador implements Serializable {
 
     public String adicionar() {
         // deveríamos ter um objeto responsável por encapsular essa regra de negócio
-        Pessoa retorno = this.pessoas.localizarPessoaComId(
-                this.pessoa.getId()
-        );
-        if(Pessoa.fake().equals(retorno)){
-            this.pessoas.nova(this.pessoa);
-        }else{
-            this.pessoas.atualizar(this.pessoa);
-        }
-        this.pessoa = new Pessoa("");
+    	
+        servicoMemoria.nova(pessoa);
         return null;
     }
+    
     public String excluir(Pessoa pessoa){
-        this.pessoas.excluir(pessoa);
+        servicoMemoria.excluir(pessoa);
         return null;
     }
     public String editar(Pessoa pessoa){
-        this.pessoa = pessoa;
+        servicoMemoria.atualizar(pessoa);
         return "edit";
     }
 
     public String adicionarDependente() {
-        this.pessoas.novo(dependente);
+        servicoMemoria.novo(dependente);
         this.dependente = new Dependente();
         return null;
     }
 
 
     public List<Dependente> todosOsDependentes(){
-        return this.pessoas.todosOsDepentendes();
+        return servicoMemoria.todosOsDepentendes();
     }
     public List<Pessoa> todasAsPessoas() {
-        return this.pessoas.todas();
+        return servicoMemoria.todas();
     }
 
     public Pessoa getPessoa() {
