@@ -1,5 +1,6 @@
 package br.edu.ifpb.domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,9 @@ public class Pessoa {
 
     public Pessoa(String nome) {
         this(nome, "11111111111");
+    }
+    public Pessoa() {
+        
     }
     public Pessoa(String nome, String cpf) {
         this.nome = nome;

@@ -27,14 +27,17 @@ public class Controlador implements Serializable {
     private Pessoa pessoa = new Pessoa("");
     private Dependente dependente = new Dependente();
 
-    @Inject
-    private PessoasEmMemoria servicoMemoria;
+    //@Inject
+    private PessoasEmMemoria servicoMemoria = new PessoasEmMemoria();
 
     private Pessoas pessoas = new PessoasEmMemoria();
 
     public String redirecionar() {
         // executando a lógica de negócio
-    	//servicoMemoria.nova(pessoa);
+ 
+    	System.out.println("passei");
+    	pessoa.setDependente(dependente);
+    	servicoMemoria.nova(pessoa);
         // redirecionando...
         return null; // fica na página original
 //        return "home"; // encmainhar a requisição à página 
