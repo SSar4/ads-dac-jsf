@@ -5,6 +5,8 @@ import br.edu.ifpb.domain.Pessoa;
 import br.edu.ifpb.domain.Pessoas;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,7 +27,8 @@ public class PessoasEmMemoria implements Pessoas {
     private final List<Dependente> dependentes = new ArrayList<>();
 
     public PessoasEmMemoria() {
-       
+    	 dependentes.add(new Dependente("22", "jose", LocalDate.of(2020, Month.MARCH, 2)));
+         dependentes.add(new Dependente("32", "sssss", LocalDate.of(2002, Month.MARCH, 3)));
     }
 
 
@@ -79,6 +82,7 @@ public class PessoasEmMemoria implements Pessoas {
 
     @Override
     public void novo(Dependente dependente) {
+    	
         this.dependentes.add(dependente);
     }
 

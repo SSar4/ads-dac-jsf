@@ -6,8 +6,11 @@ import br.edu.ifpb.domain.Dependente;
 import br.edu.ifpb.domain.Pessoa;
 import br.edu.ifpb.domain.Pessoas;
 import br.edu.ifpb.domain.service.AlteraNomeDasPessoas;
+import br.edu.ifpb.domain.service.PessoaServico;
 import br.edu.ifpb.infra.persistence.memory.PessoasEmMemoria;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -26,17 +29,18 @@ public class Controlador implements Serializable {
 
     private Pessoa pessoa = new Pessoa("");
     private Dependente dependente = new Dependente();
+    private String dtnascimento;
 
     //@Inject
     private PessoasEmMemoria servicoMemoria = new PessoasEmMemoria();
-
+    private PessoaServico pessoase = new PessoaServico();
     private Pessoas pessoas = new PessoasEmMemoria();
 
     public String redirecionar() {
         // executando a lógica de negócio
  
     	System.out.println("passei");
-    	pessoa.setDependente(dependente);
+    	pessoase.nova(pessoa);
     	servicoMemoria.nova(pessoa);
         // redirecionando...
         return null; // fica na página original
@@ -61,6 +65,10 @@ public class Controlador implements Serializable {
     }
 
     public String adicionarDependente() {
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(dtnascimento, formatter);
+        dependente.setUuid("369");
+        dependente.setDataDeNascimento(date);
         servicoMemoria.novo(dependente);
         this.dependente = new Dependente();
         return null;
@@ -89,4 +97,12 @@ public class Controlador implements Serializable {
     public void setDependente(Dependente dependente) {
         this.dependente = dependente;
     }
+
+	public String getDtnascimento() {
+		return dtnascimento;
+	}
+
+	public void setDtnascimento(String dtnascimento) {
+		this.dtnascimento = dtnascimento;
+	}
 }

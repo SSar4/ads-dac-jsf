@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import br.edu.ifpb.domain.Dependente;
 import br.edu.ifpb.domain.Pessoa;
 import br.edu.ifpb.domain.Pessoas;
+import br.edu.ifpb.infra.persistence.jdbc.PessoaJDBC;
 import br.edu.ifpb.infra.persistence.memory.PessoasEmMemoria;
 
 @RequestScoped
@@ -17,9 +18,11 @@ public class PessoaServico implements Pessoas{
 	 */
 	private static final long serialVersionUID = 1L;
 	PessoasEmMemoria pessoaMemoria;
+	PessoaJDBC pessoajdbc;
 	
 	public PessoaServico() {
 		this.pessoaMemoria = new PessoasEmMemoria();
+		this.pessoajdbc = new PessoaJDBC();
 	}
 
 
@@ -27,7 +30,9 @@ public class PessoaServico implements Pessoas{
 	public void nova(Pessoa pessoa) {
 		Pessoa retorno = this.pessoaMemoria.localizarPessoaComId(pessoa.getId());
         if(Pessoa.fake().equals(retorno)){
+        	pessoajdbc.nova(pessoa);
             pessoaMemoria.nova(pessoa);
+           
         }else{
             pessoaMemoria.atualizar(pessoa);
         }

@@ -12,6 +12,7 @@
             <h:messages layout="list"/>
             <h:outputLabel for="nome" value="Nome" />
             <h:inputText value="#{controlador.dependente.nome}" id="nome"/>
+            <h:inputText value="#{controlador.dtnascimento}"></h:inputText>
             <h:commandButton value="adicionar" action="#{controlador.adicionarDependente()}"/>
 
             <h:dataTable var="dep" value="#{controlador.todosOsDependentes()}" class="striped highlight">
